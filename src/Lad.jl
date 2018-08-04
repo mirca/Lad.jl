@@ -1,6 +1,6 @@
 module Lad
 
-function lad(X, y, yerr=nothing, l1regularizer=0., maxiter=50, rtol=1e-4, eps=1e-4)::Array{Float64, 2}
+function lad(X, y, yerr=nothing, l1regularizer=0., maxiter=50, rtol=1e-4, eps=1e-6)::Array{Float64, 2}
 
     if yerr != nothing
         yerr /= sqrt(2.)
@@ -12,7 +12,7 @@ function lad(X, y, yerr=nothing, l1regularizer=0., maxiter=50, rtol=1e-4, eps=1e
     y /= yerr
 
     p = size(X)[2]
-    l1regularizer = Diagonal(eye(p) * l1regularizer)
+    l1regularizer = eye(p) * l1regularizer
     beta = solve(X, y, l1regularizer, p)
     regfactor = norm(beta, 1.)
     k = 1
